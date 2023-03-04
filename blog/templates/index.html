@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    Index Page
+{% endblock %}
+
+{% block body %}
+    <h1>Hello index page!</h1>
+{% endblock %}
+
+{% block title %}
+    Users list
+{% endblock %}
+
+{% block body %}
+    <h1>Users</h1>
+    <div>
+        <ul>
+            {% for user_id in users %}
+                <li>{{ users[user_id] }}</li>
+            {% endfor %}
+        </ul>
+    </div>
+{% endblock %}
