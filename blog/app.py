@@ -9,7 +9,7 @@ from blog.models.database import db
 from blog.views.auth import login_manager, auth_app
 import os
 from flask_migrate import Migrate
-
+from blog.security import flask_bcrypt
 
 
 migrate = Migrate(app, db)
@@ -27,6 +27,8 @@ def create_app() -> Flask:
 
     cfg_name = os.environ.get("CONFIG_NAME") or "ProductionConfig"
     app.config.from_object(f"blog.configs.{cfg_name}")
+
+    flask_bcrypt.init_app(app)
     return app
 
 
@@ -112,3 +114,18 @@ def handle_zero_division_error(error):
     print(error)
     app.logger.exception("Here's traceback for zero division error")
     return "Never divide by zero!", 400
+
+
+@app.cli.command("create-admin")
+def create_admin():
+    """
+    Run in your terminal:
+    ➜ flask create-admin
+    > created admin: <User #1 'admin'>
+    """
+    from blog.models import User
+    admin = User(username="admin", is_staff=True)
+    admin.password = os.environ.get("ADMIN_PASSWORD") or "adminpass"
+    db.session.add(admin)
+    db.session.commit()
+    print("created admin:", admin)
