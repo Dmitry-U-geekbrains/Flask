@@ -10,6 +10,8 @@ from blog.views.auth import login_manager, auth_app
 import os
 from flask_migrate import Migrate
 from blog.security import flask_bcrypt
+from blog.views.authors import authors_app
+
 
 
 migrate = Migrate(app, db)
@@ -27,6 +29,8 @@ def create_app() -> Flask:
 
     cfg_name = os.environ.get("CONFIG_NAME") or "ProductionConfig"
     app.config.from_object(f"blog.configs.{cfg_name}")
+
+    app.register_blueprint(authors_app, url_prefix="/authors")
 
     flask_bcrypt.init_app(app)
     return app
