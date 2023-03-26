@@ -11,6 +11,8 @@ import os
 from flask_migrate import Migrate
 from blog.security import flask_bcrypt
 from blog.views.authors import authors_app
+from blog.admin import admin
+
 
 
 
@@ -33,6 +35,8 @@ def create_app() -> Flask:
     app.register_blueprint(authors_app, url_prefix="/authors")
 
     flask_bcrypt.init_app(app)
+    
+    admin.init_app(app)
     return app
 
 
