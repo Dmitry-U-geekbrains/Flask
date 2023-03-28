@@ -15,3 +15,4 @@ ComboJSONAPI==1.1.1
 apispec==4.7.1
 PyYAML==5.4.1
 requests==2.26.0
+gunicorn==20.1.0
